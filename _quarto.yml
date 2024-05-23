@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "Cometes中文文档"
+  author: "lanc"
+  date: "2024/5/9"
+  chapters:
+    - index.qmd
+    - getting started.ipynb
+    - Growth in a test tube.ipynb
+    - Competition assay.ipynb
+    - Citrate use in the LTEE.ipynb
+    - Circular colony growth.ipynb
+    - Branching colony growth.ipynb
+    - Demographic noise with two strains.ipynb
+    - Virtual Petri dish.ipynb
+    
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "cc34fed5"
+  },
+  "getting started.ipynb": {
+    "getting started.html": "d917b51e"
+  },
+  "Growth in a test tube.ipynb": {
+    "Growth in a test tube.html": "351a0ab3"
+  },
+  "Competition assay.ipynb": {
+    "Competition assay.html": "75d3e5c2"
+  },
+  "Citrate use in the LTEE.ipynb": {
+    "Citrate use in the LTEE.html": "cac11668"
+  },
+  "Circular colony growth.ipynb": {
+    "Circular colony growth.html": "43a22f8a"
+  },
+  "Branching colony growth.ipynb": {
+    "Branching colony growth.html": "4a55d7b1"
+  },
+  "Demographic noise with two strains.ipynb": {
+    "Demographic noise with two strains.html": "460c73a8"
+  },
+  "Virtual Petri dish.ipynb": {
+    "Virtual Petri dish.html": "d6185f79"
+  }
+}
