@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Growth in a test tube.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>该类模型用于存储在COMETS模拟中使用的全基因组尺度代谢模型。通常情况下，我们首先会使用COBRAPy加载一个模型。然后，我们可以将这个模型传递给COMETS模型类，这使得我们可以修改COMETS特有的模型参数，比如初始种群大小</p>
-<div id="initial_id" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T08:59:18.152743400Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T08:59:17.600727300Z&quot;}" data-execution_count="5">
+<div id="initial_id" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:37:24.658973600Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:37:20.683257Z&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra.io</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cometspy <span class="im">as</span> c</span>
@@ -262,7 +262,7 @@ C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: Futu
 <section id="设置仿真参数comets" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> 设置仿真参数COMETS</h1>
 <p>COMETS模拟的参数存储在params类中，该类仅包含一个dict对象，其中包含了参数名称及其对应的值。如果我们不带参数初始化此类，它将包含默认的参数值。一旦加载完成后，可以按照需求查看和修改这些参数值。</p>
-<div id="9ccba258d73ea1d3" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:00:14.595828700Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:00:14.495693400Z&quot;}" data-execution_count="6">
+<div id="9ccba258d73ea1d3" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:37:32.203234700Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:37:32.124562800Z&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a parameters object with default values </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>my_params <span class="op">=</span> c.params()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -274,7 +274,7 @@ C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: Futu
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># See avaliable parameters and their values</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>my_params.show_params()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <div>
 
@@ -355,7 +355,7 @@ C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: Futu
 <section id="准备模拟布局comets" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> 准备模拟布局COMETS</h1>
 <p>layout类描述了环境，即“word”的特性，包括其中存在的物种（models）。它可以为空实例化或使用COMETS模型进行实例化： 1.若不带任何参数实例化（例如：my_layout = c.layout()），则会创建一个空布局，并带有所有需要填充的必要字段。 2.如果通过传入一个模型（或多个模型）来实例化布局，则会生成一个布局，其中包含所有这些模型能够与环境交换的代谢物，其初始浓度为零，以及无限浓度（默认-1000）的金属离子。 为了查看Comets布局的不同部分，让我们首先从上述已加载的教科书模型创建一个布局：</p>
-<div id="5c3b4ffa9682e015" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:00:30.124707300Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:00:30.061092Z&quot;}" data-execution_count="7">
+<div id="5c3b4ffa9682e015" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:37:39.492576800Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:37:39.396707900Z&quot;}" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_layout <span class="op">=</span> c.layout(test_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\layout.py:1361: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
@@ -364,9 +364,9 @@ C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: Futu
 </div>
 <p>在该环境中，layout类存储了关于物种（my_layout.models）和空间结构（my_layout.grid）的信息。在这个例子中，模型仅指教科书模型，而网格则是默认的单格结构，即只有一个单元格。</p>
 <p>此外，layout还以pandas数据帧的形式存储了介质信息。在这种情况下，没有预先设置任何介质成分的量。这意味着初始化时，环境中对于模型可以交换的所有代谢物及其他介质成分，其初始浓度都是零或按照默认情况设定（如金属离子为无限浓度）。</p>
-<div id="56b0526f63a8d799" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:00:43.275817400Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:00:43.232119100Z&quot;}" data-execution_count="8">
+<div id="56b0526f63a8d799" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:37:44.808009700Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:37:44.769815Z&quot;}" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_layout.media</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <div>
 
@@ -590,31 +590,350 @@ C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: Futu
 <section id="运行comets模拟" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> 运行COMETS模拟</h1>
 <p>comets类利用layout对象和parameters对象来运行模拟并存储输出结果。运行一个COMETS模拟相当直接。我们首先通过传递layout对象和params对象作为参数来定义comets对象，然后调用run()方法执行模拟：</p>
-<div id="4524393eeccba576" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:03:13.342533400Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:03:11.750482600Z&quot;}" data-execution_count="10">
+<div id="4524393eeccba576" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:37:54.349209600Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:37:51.553214Z&quot;}" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_simulation <span class="op">=</span> c.comets(my_layout, my_params)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>my_simulation.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Running COMETS simulation ...</code></pre>
-</div>
-<div class="cell-output cell-output-error">
-<pre><code>UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd5 in position 334: invalid continuation byte</code></pre>
+Running COMETS simulation ...
+Done!</code></pre>
 </div>
 </div>
 </section>
 <section id="检查模拟输出及可能的错误" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> 检查模拟输出及可能的错误</h1>
 <p>该命令在后台启动COMETS Java引擎，在控制台中执行并生成标准输出（stdout）及标准错误（stderr）日志记录。这些日志可通过各自对应的字段“run_outputs”和“run_errors”进行访问查阅。</p>
-<div id="e6b946507c311233" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:04:01.937852700Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:04:01.924111900Z&quot;}" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_simulation.run_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e6b946507c311233" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:38:03.297247800Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:38:03.281495200Z&quot;}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_simulation.run_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>b"-script\r\nrunning script file: D:\\HZAU\\bacteria\\building\\merge_model-main/.current_script_0x27819a02850\r\nCurrent Java version: 1.8.0_401\r\nParameters file .current_global_0x27819a02850 loaded.\r\nParameters file .current_package_0x27819a02850 loaded.\r\nLoading layout file '.current_layout_0x27819a02850'...\r\nnull\\COMETS_manifest.txt (\xcf\xb5\xcd\xb3\xd5\xd2\xb2\xbb\xb5\xbd\xd6\xb8\xb6\xa8\xb5\xc4\xc2\xb7\xbe\xb6\xa1\xa3)\r\nUnable to initialize manifest file. \nContinuing without writing manifest file.\r\nFound 1 model files!\r\nLoading '.\\e_coli_core.cmd' ...\r\njava.lang.NoClassDefFoundError: gurobi/GRBException\r\n\tat edu.bu.segrelab.comets.fba.FBAModel.&lt;init&gt;(FBAModel.java:224)\r\n\tat edu.bu.segrelab.comets.fba.FBAModel.&lt;init&gt;(FBAModel.java:287)\r\n\tat edu.bu.segrelab.comets.fba.FBAModel.loadModelFromFile(FBAModel.java:2648)\r\n\tat edu.bu.segrelab.comets.fba.FBACometsLoader.loadModelFromFile(FBACometsLoader.java:2918)\r\n\tat edu.bu.segrelab.comets.fba.FBACometsLoader.parseModelFileLine(FBACometsLoader.java:1168)\r\n\tat edu.bu.segrelab.comets.fba.FBACometsLoader.loadLayoutFile(FBACometsLoader.java:316)\r\n\tat edu.bu.segrelab.comets.Comets.loadLayoutFile(Comets.java:1657)\r\n\tat edu.bu.segrelab.comets.Comets.runScript(Comets.java:541)\r\n\tat edu.bu.segrelab.comets.Comets.&lt;init&gt;(Comets.java:233)\r\n\tat edu.bu.segrelab.comets.Comets.main(Comets.java:2159)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\r\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)\r\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n\tat java.lang.reflect.Method.invoke(Unknown Source)\r\n\tat com.exe4j.runtime.LauncherEngine.launch(LauncherEngine.java:85)\r\n\tat com.exe4j.runtime.WinLauncher.main(WinLauncher.java:94)\r\n\tat com.install4j.runtime.launcher.WinLauncher.main(WinLauncher.java:25)\r\nCaused by: java.lang.ClassNotFoundException: gurobi.GRBException\r\n\tat java.net.URLClassLoader.findClass(Unknown Source)\r\n\tat java.lang.ClassLoader.loadClass(Unknown Source)\r\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)\r\n\tat java.lang.ClassLoader.loadClass(Unknown Source)\r\n\t... 17 more\r\n"</code></pre>
+<pre><code>-script
+running script file: D:\HZAU\bacteria\cometes\cometespy/.current_script_0x1565e898990
+Current Java version: 22.0.1
+Parameters file .current_global_0x1565e898990 loaded.
+Parameters file .current_package_0x1565e898990 loaded.
+Loading layout file '.current_layout_0x1565e898990'...
+null\COMETS_manifest.txt (系统找不到指定的路径。)
+Unable to initialize manifest file. 
+Continuing without writing manifest file.
+Found 1 model files!
+Loading '.\e_coli_core.cmd' ...
+Done!
+ Testing default parameters...
+Done!
+Optimizer status code = 5 (looks ok!)
+objective solution = 0.8739215069684305
+Constructing world...
+Done!
+medialist   ac_e    acald_e akg_e   co2_e   etoh_e  for_e   fru_e   fum_e   glc__D_e    gln__L_e    glu__L_e    h2o_e   h_e lac__D_e    mal__L_e    nh4_e   o2_e    pi_e    pyr_e   succ_e
+Cycle 1
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 2
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 3
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 4
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 5
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 6
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 7
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 8
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 9
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 10
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 11
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 12
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 13
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 14
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 15
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 16
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 17
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 18
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 19
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 20
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 21
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 22
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 23
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 24
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 25
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 26
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 27
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 28
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 29
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 30
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 31
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 32
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 33
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 34
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 35
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 36
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 37
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 38
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 39
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 40
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 41
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 42
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 43
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 44
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 45
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 46
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 47
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 48
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 49
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 50
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 51
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 52
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 53
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 54
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 55
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 56
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 57
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 58
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 59
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 60
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 61
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 62
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 63
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 64
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 65
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 66
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 67
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 68
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 69
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 70
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 71
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 72
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 73
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 74
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 75
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 76
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 77
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 78
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 79
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 80
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 81
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 82
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 83
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 84
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 85
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 86
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 87
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 88
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 89
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 90
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 91
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 92
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 93
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 94
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 95
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 96
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 97
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 98
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 99
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 100
+Total biomass:
+Model e_coli_core.cmd: 1.0E-7
+Cycle 101
+End of simulation
+Total time = 0.222s</code></pre>
 </div>
 </div>
-<div id="72dcb9d9f21e4ac5" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:04:16.121350Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:04:16.104706800Z&quot;}" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_simulation.run_errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="72dcb9d9f21e4ac5" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:38:21.981199600Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:38:21.950699800Z&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_simulation.run_errors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>None</code></pre>
+<pre><code>STDERR empty.</code></pre>
 </div>
 </div>
 </section>
@@ -623,10 +942,83 @@ Running COMETS simulation ...</code></pre>
 <p>成功模拟的结果存储在comets对象内的多个字段中，这取决于参数writeTotalBiomasslog、writeBiomassLog、writeFluxLog和writeMediaLog是否设置为True。</p>
 <p>total_biomass字段存储了每个时间点和物种的总生物量（汇总所有坐标上的生物量）。 biomass字段详细记录了每个时间点、坐标以及物种的具体生物量值。 media字段存储了各个时间点培养基的组成情况。 fluxes字段存储了每个物种、坐标和时间点的代谢通量数据。 此外，特定的COMETS模式会有额外的输出字段；例如，如果我们运行的是进化模拟，genotypes字段会存储每个物种的相关信息，如其祖先以及它所经历的突变等。</p>
 <p>所有输出文件都是pandas DataFrame格式，可以使用标准Python工具进一步分析或绘制图表。</p>
-<div id="cd7631ce43aeb956" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-04-11T09:04:21.909479Z&quot;,&quot;start_time&quot;:&quot;2024-04-11T09:04:21.874037400Z&quot;}" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>my_simulation.total_biomass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>AttributeError: 'comets' object has no attribute 'total_biomass'</code></pre>
+<div id="cd7631ce43aeb956" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T12:38:26.798705200Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T12:38:26.761939600Z&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>my_simulation.total_biomass</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">cycle</th>
+<th data-quarto-table-cell-role="th">e_coli_core</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">96</td>
+<td>96</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">97</td>
+<td>97</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">98</td>
+<td>98</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">99</td>
+<td>99</td>
+<td>1.000000e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100</td>
+<td>100</td>
+<td>1.000000e-07</td>
+</tr>
+</tbody>
+</table>
+
+<p>101 rows × 2 columns</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -1050,8 +1442,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Growth in a test tube.html" class="pagination-link" aria-label="导入COMETS Python 工具箱">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Growth in a test tube.html" class="pagination-link" aria-label="Growth in a test tube">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

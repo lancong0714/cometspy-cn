@@ -1,0 +1,8 @@
+ModelFileName: ./toy.cmd
+BiomassFileName: biomasslog_0x1d8356cb390
+TotalBiomassFileName: totalbiomasslog_0x1d8356cb390
+ModelFileName: ./e_coli_core.cmd
+FluxFileName: fluxlog_0x1753ee74590
+MediaFileName: medialog_0x1753ee74590
+BiomassFileName: biomasslog_0x1753ee74590
+TotalBiomassFileName: totalbiomasslog_0x1753ee74590

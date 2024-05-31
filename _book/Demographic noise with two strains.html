@@ -155,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Growth in a test tube.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -225,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>此流程再现了主文本中模拟群体遗传噪声如何导致同样适应度的扩张菌落空间分隔的主要实验方案。</p>
-<div id="23421b1f1a10db87" class="cell">
+<div id="23421b1f1a10db87" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:48:49.888445Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:48:46.163750900Z&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra.io <span class="co"># for the ijo1366 model</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -235,11 +235,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cometspy <span class="im">as</span> c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>我们将使用E. coli core模型</p>
-<div id="bcb3abddf0d14ef8" class="cell">
+<div id="bcb3abddf0d14ef8" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:48:50.255767300Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:48:49.891734100Z&quot;}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ecoli <span class="op">=</span> cobra.io.load_model(<span class="st">'textbook'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>我们现在将把这个模型转换为COMETS模型，并设置两个参数选项：一个是反映群体遗传噪声的参数，被称为“中性漂变”（neutral drift）；另一个是基于对流运动的参数。</p>
-<div id="36c2b560ef288ec3" class="cell">
+<div id="36c2b560ef288ec3" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:48:51.447564800Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:48:50.259030100Z&quot;}" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grid_size <span class="op">=</span> <span class="dv">40</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ecoli_comets <span class="op">=</span> c.model(ecoli)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ecoli_comets.reactions.loc[ecoli_comets.reactions.EXCH, <span class="st">"LB"</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1000</span></span>
@@ -249,69 +249,78 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                    convNonlinDiffHillN <span class="op">=</span> <span class="fl">2.</span>,</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                    convNonlinDiffHillK <span class="op">=</span> <span class="fl">0.001</span>)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ecoli_comets.add_neutral_drift_parameter(<span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>TypeError: model.add_nonlinear_diffusion_parameters() got an unexpected keyword argument 'convNonlinDiffZero'</code></pre>
+</div>
 </div>
 <p>让我们精确复制 ecoli comets模型。</p>
-<div id="7e7016470b7aca00" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ecoli_comets2 <span class="op">=</span> copy.copy(ecoli_comets)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ecoli_comets2.<span class="bu">id</span> <span class="op">=</span> <span class="st">"e_coli_core2"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>ecoli_comets.initial_pop <span class="op">=</span> [[x, <span class="dv">0</span>, np.random.normal(<span class="fl">6.4e-5</span>, <span class="fl">1e-6</span>)] <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size)]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ecoli_comets2.initial_pop <span class="op">=</span> [[x, <span class="dv">0</span>, np.random.normal(<span class="fl">6.4e-5</span>, <span class="fl">1e-6</span>)] <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7e7016470b7aca00" class="cell" data-executetime="{&quot;start_time&quot;:&quot;2024-05-30T13:48:51.444292300Z&quot;}">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ecoli_comets2 <span class="op">=</span> copy.copy(ecoli_comets)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>ecoli_comets2.<span class="bu">id</span> <span class="op">=</span> <span class="st">"e_coli_core2"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ecoli_comets.initial_pop <span class="op">=</span> [[x, <span class="dv">0</span>, np.random.normal(<span class="fl">6.4e-5</span>, <span class="fl">1e-6</span>)] <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size)]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ecoli_comets2.initial_pop <span class="op">=</span> [[x, <span class="dv">0</span>, np.random.normal(<span class="fl">6.4e-5</span>, <span class="fl">1e-6</span>)] <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>这次模拟将在一个100x100的网格上构建一个位于中心的单一菌落。碳源将在整个区域内均匀分布，并且在网格的一端设定为固定的初始浓度。</p>
-<div id="747fa49414d07d1" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ly <span class="op">=</span> c.layout([ecoli_comets, ecoli_comets2])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ly.grid <span class="op">=</span> [grid_size, grid_size]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"glc__D_e"</span>, <span class="fl">2.2e-3</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"h2o_e"</span>, <span class="dv">1000</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"nh4_e"</span>, <span class="dv">1000</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"o2_e"</span>, <span class="dv">1000</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"pi_e"</span>, <span class="dv">1000</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"h_e"</span>, <span class="dv">1000</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size):</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    ly.set_specific_static_at_location(<span class="st">"glc__D_e"</span>, (x, grid_size<span class="op">-</span><span class="dv">1</span>), <span class="fl">1.1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="747fa49414d07d1" class="cell" data-executetime="{&quot;start_time&quot;:&quot;2024-05-30T13:48:51.451154600Z&quot;}">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ly <span class="op">=</span> c.layout([ecoli_comets, ecoli_comets2])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ly.grid <span class="op">=</span> [grid_size, grid_size]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"glc__D_e"</span>, <span class="fl">2.2e-3</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"h2o_e"</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"nh4_e"</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"o2_e"</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"pi_e"</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ly.set_specific_metabolite(<span class="st">"h_e"</span>, <span class="dv">1000</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(grid_size):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    ly.set_specific_static_at_location(<span class="st">"glc__D_e"</span>, (x, grid_size<span class="op">-</span><span class="dv">1</span>), <span class="fl">1.1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>我们需要设置的主要参数是 biomassmotionstyle，必须设置为“ConvNonlin Diffusion 2D”。然后，为了捕获空间信息，我们还将记录生物量（而不仅仅是总生物量）。最后，我们还将调整一些其他参数。这些存储在字典all_params中。</p>
-<div id="b6f035e055137cea" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> c.params()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>cycles <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"biomassMotionStyle"</span>] <span class="op">=</span> <span class="st">"ConvNonlin Diffusion 2D"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"writeBiomassLog"</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"BiomassLogRate"</span>] <span class="op">=</span> cycles</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"maxCycles"</span>] <span class="op">=</span> cycles</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"timeStep"</span>] <span class="op">=</span> <span class="fl">0.05</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"spaceWidth"</span>] <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultDiffConst"</span>] <span class="op">=</span> <span class="fl">6.e-6</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"maxSpaceBiomass"</span>] <span class="op">=</span> <span class="dv">1000000</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"minSpaceBiomass"</span>] <span class="op">=</span> <span class="fl">1.0e-9</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"allowCellOverlap"</span>] <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"growthDiffRate"</span>] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultVmax"</span>] <span class="op">=</span> <span class="fl">18.5</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultKm"</span>] <span class="op">=</span> <span class="fl">0.000015</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultHill"</span>] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"exchangestyle"</span>] <span class="op">=</span> <span class="st">"Monod Style"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b6f035e055137cea" class="cell" data-executetime="{&quot;start_time&quot;:&quot;2024-05-30T13:48:51.455831700Z&quot;}">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> c.params()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cycles <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"biomassMotionStyle"</span>] <span class="op">=</span> <span class="st">"ConvNonlin Diffusion 2D"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"writeBiomassLog"</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"BiomassLogRate"</span>] <span class="op">=</span> cycles</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"maxCycles"</span>] <span class="op">=</span> cycles</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"timeStep"</span>] <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"spaceWidth"</span>] <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultDiffConst"</span>] <span class="op">=</span> <span class="fl">6.e-6</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"maxSpaceBiomass"</span>] <span class="op">=</span> <span class="dv">1000000</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"minSpaceBiomass"</span>] <span class="op">=</span> <span class="fl">1.0e-9</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"allowCellOverlap"</span>] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"growthDiffRate"</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultVmax"</span>] <span class="op">=</span> <span class="fl">18.5</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultKm"</span>] <span class="op">=</span> <span class="fl">0.000015</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"defaultHill"</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>p.all_params[<span class="st">"exchangestyle"</span>] <span class="op">=</span> <span class="st">"Monod Style"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>现在我们制作一个模拟对象并运行它。这可能需要一段时间。</p>
-<div id="137f412f65b0db75" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> c.comets(ly, p)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sim.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="137f412f65b0db75" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:48:51.463510400Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:48:51.459929400Z&quot;}">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> c.comets(ly, p)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sim.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>现在让我们绘制结果图。我们使用 get_biomass_image 辅助函数，然后使用 matplotlib 进行绘图。</p>
-<div id="f9ac53a03b8173a7" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> sim.get_biomass_image(<span class="st">'e_coli_core'</span>, cycles).astype(<span class="bu">float</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> im <span class="op">/</span> np.<span class="bu">max</span>(im)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>im2 <span class="op">=</span> sim.get_biomass_image(<span class="st">'e_coli_core2'</span>,cycles).astype(<span class="bu">float</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>im2 <span class="op">=</span> im2 <span class="op">/</span> np.<span class="bu">max</span>(im2)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>final <span class="op">=</span> np.zeros((grid_size,grid_size,<span class="dv">3</span>))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>final[:,:,<span class="dv">1</span>] <span class="op">=</span> im</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>final[:,:,<span class="dv">2</span>] <span class="op">=</span> im2</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>plt.imshow(final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f9ac53a03b8173a7" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:48:51.514756300Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:48:51.464527300Z&quot;}">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> sim.get_biomass_image(<span class="st">'e_coli_core'</span>, cycles).astype(<span class="bu">float</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> im <span class="op">/</span> np.<span class="bu">max</span>(im)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>im2 <span class="op">=</span> sim.get_biomass_image(<span class="st">'e_coli_core2'</span>,cycles).astype(<span class="bu">float</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>im2 <span class="op">=</span> im2 <span class="op">/</span> np.<span class="bu">max</span>(im2)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>final <span class="op">=</span> np.zeros((grid_size,grid_size,<span class="dv">3</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>final[:,:,<span class="dv">1</span>] <span class="op">=</span> im</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>final[:,:,<span class="dv">2</span>] <span class="op">=</span> im2</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>plt.imshow(final)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

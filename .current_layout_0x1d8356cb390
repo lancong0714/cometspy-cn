@@ -1,0 +1,11 @@
+model_file ./toy.cmd 
+  model_world
+    grid_size 30 30
+    world_media
+      carbon 1.0
+    //
+  //
+  initial_pop
+    15 15 1.0
+  //
+//

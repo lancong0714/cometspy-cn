@@ -155,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Growth in a test tube.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -228,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>经过大约33000代之后，在大肠杆菌长期进化实验的一个复制群体（Ara-3）中观察到了大规模种群扩张现象（Blount等人，2008年）。这种种群扩张与两个关键突变有关，这两个突变共同促进了对空气中的柠檬酸强烈利用表型（Cit++表型）的进化。第一个突变（约在31000代时发生）导致了citT转运蛋白在有氧条件下的表达，产生了较弱的柠檬酸生长表型（Cit+，Blount等人，2012年）。随后的突变（约在33000代左右发生）引起了dctA蛋白的高度持续表达，这是一种质子驱动的二羧酸转运蛋白（Quandt等人，2014年）。由于这两个突变引入了已知的反应进入大肠杆菌代谢网络中，因此我们可以通过COMETS对其进行模拟。</p>
 <p>此示例模拟采用了与(Bajic等人，2018年)中相同的大肠杆菌模型、参数和反应敲除策略。</p>
 <p>首先，创建布局并模拟DM25培养基。</p>
-<div id="93e7ec5352ddfb25" class="cell">
+<div id="93e7ec5352ddfb25" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:10:27.312829100Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:10:19.298840800Z&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cometspy <span class="im">as</span> c</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra.io</span>
@@ -242,100 +242,142 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>layout.add_typical_trace_metabolites()</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>layout.set_specific_metabolite(<span class="st">'glc__D_e'</span>, <span class="fl">0.000139</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>layout.set_specific_metabolite(<span class="st">'cit_e'</span>, <span class="fl">0.0017</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>building empty layout model
+models will need to be added with layout.add_model()
+Warning: The added metabolite (glc__D_e) is not able to be taken up by any of the current models
+Warning: The added metabolite (cit_e) is not able to be taken up by any of the current models</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\layout.py:1024: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.media = pd.concat([self.media,</code></pre>
+</div>
 </div>
 <p>现在加载模型并构建突变体。为了展示与COBRApy工具箱的兼容性，我们将通过COBRA加载模型并对模型进行突变操作，然后将这些修改后的模型作为输入构建COMETS模型。</p>
 <p>不同于LTEE（长期进化实验）的祖先菌株REL606（以及一般的大肠杆菌），虽然它们具有利用柠檬酸所必需的基因但在有氧条件下并不表达这些基因，而iJO1366模型默认情况下对柠檬酸和琥珀酸的利用反应是未加限制的。因此，要复现祖先表型，可以通过敲除三个反应：CITt7pp（编码citT的转运反应）、SUCCt2_2pp（编码dctA的转运反应）和SUCCt2_3pp（编码dcuA或dcuB的转运反应）。</p>
-<div id="17e4a6903d4e7e77" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the E. coli iJO1366 model </span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mod  <span class="op">=</span> cobra.io.load_model(<span class="st">'ecoli'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set exchange reaction lower bounds to -1000 to allow them being controlled by COMETS </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> mod.reactions:</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'EX_'</span> <span class="kw">in</span> i.<span class="bu">id</span>:</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        i.lower_bound <span class="op">=-</span><span class="fl">1000.0</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#now create the mutants </span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mod.reactions.SUCCt2_3pp.upper_bound<span class="op">=</span><span class="fl">0.0</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>CitTdctA <span class="op">=</span> mod.copy()</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>mod.reactions.SUCCt2_2pp.upper_bound <span class="op">=</span><span class="fl">0.0</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>CitT <span class="op">=</span> mod.copy()</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>mod.reactions.CITt7pp.upper_bound <span class="op">=</span><span class="fl">0.0</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>WT <span class="op">=</span> mod.copy()</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>WT.<span class="bu">id</span><span class="op">=</span> <span class="st">'Ancestor'</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>CitT.<span class="bu">id</span> <span class="op">=</span> <span class="st">'Cit+'</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>CitTdctA.<span class="bu">id</span> <span class="op">=</span> <span class="st">'Cit++'</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate comets models and set their initial population size</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> c.model(WT)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>p.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>] <span class="co"># We'll introduce genotypes 100 cells at a time to avoid the risk of them going extinct through drift</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> c.model(CitT)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>p2.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>] <span class="co"># not present at start</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> c.model(CitTdctA)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>p3.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>] <span class="co"># not present at start</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the models to the simulation </span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>layout.add_model(p)</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>layout.add_model(p2)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>layout.add_model(p3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="17e4a6903d4e7e77" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:11:03.703415900Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:10:27.318350900Z&quot;}" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the E. coli iJO1366 model </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mod  <span class="op">=</span> cobra.io.load_json_model(<span class="st">"iJO1366.json"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set exchange reaction lower bounds to -1000 to allow them being controlled by COMETS </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> mod.reactions:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'EX_'</span> <span class="kw">in</span> i.<span class="bu">id</span>:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        i.lower_bound <span class="op">=-</span><span class="fl">1000.0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#now create the mutants </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>mod.reactions.SUCCt2_3pp.upper_bound<span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>CitTdctA <span class="op">=</span> mod.copy()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>mod.reactions.SUCCt2_2pp.upper_bound <span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>CitT <span class="op">=</span> mod.copy()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>mod.reactions.CITt7pp.upper_bound <span class="op">=</span><span class="fl">0.0</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>WT <span class="op">=</span> mod.copy()</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>WT.<span class="bu">id</span><span class="op">=</span> <span class="st">'Ancestor'</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>CitT.<span class="bu">id</span> <span class="op">=</span> <span class="st">'Cit+'</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>CitTdctA.<span class="bu">id</span> <span class="op">=</span> <span class="st">'Cit++'</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate comets models and set their initial population size</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> c.model(WT)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>p.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>] <span class="co"># We'll introduce genotypes 100 cells at a time to avoid the risk of them going extinct through drift</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> c.model(CitT)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>p2.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>] <span class="co"># not present at start</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> c.model(CitTdctA)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>p3.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>] <span class="co"># not present at start</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the models to the simulation </span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>layout.add_model(p)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>layout.add_model(p2)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>layout.add_model(p3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Read LP format model from file C:\Users\99374\AppData\Local\Temp\tmpzx5t_7kr.lp
+Reading time = 0.03 seconds
+: 1805 rows, 5166 columns, 20366 nonzeros
+Read LP format model from file C:\Users\99374\AppData\Local\Temp\tmpzj34sgvv.lp
+Reading time = 0.03 seconds
+: 1805 rows, 5166 columns, 20366 nonzeros
+Read LP format model from file C:\Users\99374\AppData\Local\Temp\tmpq1l3ts57.lp
+Reading time = 0.03 seconds
+: 1805 rows, 5166 columns, 20366 nonzeros</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.</code></pre>
+</div>
 </div>
 <p>设置模拟的参数。我们使用 1 小时作为 COMETS 时间步长来加速模拟。将其缩短到更常用的 0.1 小时不会对最终结果产生重大影响，但确实会显着增加运行此模拟所需的时间。</p>
-<div id="25a408804d81fac6" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Setting paramaters for the simulation </span><span class="al">###</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>b_params <span class="op">=</span> c.params()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'timeStep'</span>] <span class="op">=</span> <span class="fl">1.0</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'deathRate'</span>] <span class="op">=</span> <span class="fl">0.01</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'batchDilution'</span>] <span class="op">=</span><span class="va">True</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'dilTime'</span>] <span class="op">=</span><span class="dv">24</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'dilFactor'</span>] <span class="op">=</span><span class="dv">100</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'cellSize'</span>]<span class="op">=</span> <span class="fl">3.9e-13</span> <span class="co">#Size of a single cell</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'minSpaceBiomass'</span>] <span class="op">=</span> <span class="fl">3.8e-13</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="25a408804d81fac6" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:11:03.713278Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:11:03.710772800Z&quot;}" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">### Setting paramaters for the simulation </span><span class="al">###</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>b_params <span class="op">=</span> c.params()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'timeStep'</span>] <span class="op">=</span> <span class="fl">1.0</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'deathRate'</span>] <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'batchDilution'</span>] <span class="op">=</span><span class="va">True</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'dilTime'</span>] <span class="op">=</span><span class="dv">24</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'dilFactor'</span>] <span class="op">=</span><span class="dv">100</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'cellSize'</span>]<span class="op">=</span> <span class="fl">3.9e-13</span> <span class="co">#Size of a single cell</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>b_params.all_params[<span class="st">'minSpaceBiomass'</span>] <span class="op">=</span> <span class="fl">3.8e-13</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>执行模拟。我们将整个模拟过程分为三个独立的COMETS运行阶段。从第25000代开始模拟，并运行大约6000代。在大约第31000代时，我们引入CitT基因型，并继续运行约2000代。最后，在大约第33000代时，我们引入CitTdctA基因型，并进行最后6000代的模拟。每次运行时，我们都将以前一次运行结束时的生物量组成作为新的起始条件。每一轮模拟中获得的生物量数据都会被分别存储在一个单独的数据框中，然后我们将这些数据框连接起来以便进行后续的综合分析。</p>
-<div id="d025ce1053c71edd" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cycles_per_day <span class="op">=</span> <span class="fl">24.0</span><span class="op">/</span>b_params.all_params[<span class="st">'timeStep'</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll start at Generation 25,000.  and run for around 6000 generations</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>batch_test <span class="op">=</span> c.comets(layout, b_params)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.all_params[<span class="st">'maxCycles'</span>] <span class="op">=</span> <span class="bu">int</span>(<span class="dv">900</span><span class="op">*</span>cycles_per_day)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>phase_1 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="dv">25000</span>})</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># At roughly Generation 31,000 we introduce the CitT genotype and run for around 2000 Generations</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">0</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass.Ancestor.tail(<span class="dv">1</span>))]</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">1</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>]</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>batch_test.layout.build_initial_pop()</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.set_param(<span class="st">'maxCycles'</span>, <span class="bu">int</span>(<span class="dv">300</span><span class="op">*</span>cycles_per_day))</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>phase_2 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="bu">max</span>(phase_1.Generations)})</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># At roughly Generation 33,000 we introduce the CitTdctA Genotype and run for a final 6000 generationr </span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">0</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass.Ancestor.tail(<span class="dv">1</span>))]</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">1</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass[<span class="st">'Cit+'</span>].tail(<span class="dv">1</span>))]</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">2</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>]</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>batch_test.layout.build_initial_pop()</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.set_param(<span class="st">'maxCycles'</span>, <span class="bu">int</span>(<span class="dv">900</span><span class="op">*</span>cycles_per_day))</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>phase_3 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="bu">max</span>(phase_2.Generations) })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d025ce1053c71edd" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:26:02.247225300Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:26:00.320024700Z&quot;}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cycles_per_day <span class="op">=</span> <span class="fl">24.0</span><span class="op">/</span>b_params.all_params[<span class="st">'timeStep'</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll start at Generation 25,000.  and run for around 6000 generations</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>batch_test <span class="op">=</span> c.comets(layout, b_params)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.all_params[<span class="st">'maxCycles'</span>] <span class="op">=</span> <span class="bu">int</span>(<span class="dv">900</span><span class="op">*</span>cycles_per_day)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>phase_1 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="dv">25000</span>})</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># At roughly Generation 31,000 we introduce the CitT genotype and run for around 2000 Generations</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">0</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass.Ancestor.tail(<span class="dv">1</span>))]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">1</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>batch_test.layout.build_initial_pop()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.set_param(<span class="st">'maxCycles'</span>, <span class="bu">int</span>(<span class="dv">300</span><span class="op">*</span>cycles_per_day))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>phase_2 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="bu">max</span>(phase_1.Generations)})</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># At roughly Generation 33,000 we introduce the CitTdctA Genotype and run for a final 6000 generationr </span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">0</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass.Ancestor.tail(<span class="dv">1</span>))]</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">1</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="bu">float</span>(batch_test.total_biomass[<span class="st">'Cit+'</span>].tail(<span class="dv">1</span>))]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>batch_test.layout.models[<span class="dv">2</span>].initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">3.9e-11</span>]</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>batch_test.layout.build_initial_pop()</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>batch_test.parameters.set_param(<span class="st">'maxCycles'</span>, <span class="bu">int</span>(<span class="dv">900</span><span class="op">*</span>cycles_per_day))</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>batch_test.run()</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>phase_3 <span class="op">=</span> pd.DataFrame({<span class="st">'Ancestor'</span> : batch_test.total_biomass.Ancestor<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitT'</span> : batch_test.total_biomass[<span class="st">'Cit+'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'CitTdctA'</span> : batch_test.total_biomass[<span class="st">'Cit++'</span>]<span class="op">/</span>(<span class="fl">3.9e-13</span>),</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'Generations'</span> : <span class="fl">6.67</span><span class="op">*</span>(batch_test.total_biomass.cycle)<span class="op">/</span>cycles_per_day <span class="op">+</span> <span class="bu">max</span>(phase_2.Generations) })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Running COMETS simulation ...</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>TypeError: 'int' object is not subscriptable</code></pre>
+</div>
 </div>
 <p>将三次运行的所有结果组合在一起，并绘制随时间变化的固定相种群大小。</p>
-<div id="75d8cc0be18b86af" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove the final timepoint from each phase</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>phase_1.drop(phase_1.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>phase_2.drop(phase_2.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>phase_3.drop(phase_3.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> pd.concat([phase_1,phase_2,phase_3])</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>final_df.reindex()</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> final_df[np.<span class="bu">round</span>((final_df.Generations <span class="op">-</span> <span class="dv">25000</span>) <span class="op">%</span> <span class="fl">6.67</span>,<span class="dv">3</span>) <span class="op">==</span> <span class="fl">6.67</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="75d8cc0be18b86af" class="cell" data-executetime="{&quot;start_time&quot;:&quot;2024-05-30T13:17:43.010477500Z&quot;}">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove the final timepoint from each phase</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phase_1.drop(phase_1.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>phase_2.drop(phase_2.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>phase_3.drop(phase_3.tail(<span class="dv">1</span>).index, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> pd.concat([phase_1,phase_2,phase_3])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>final_df.reindex()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>final_df <span class="op">=</span> final_df[np.<span class="bu">round</span>((final_df.Generations <span class="op">-</span> <span class="dv">25000</span>) <span class="op">%</span> <span class="fl">6.67</span>,<span class="dv">3</span>) <span class="op">==</span> <span class="fl">6.67</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

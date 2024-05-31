@@ -155,7 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Growth in a test tube.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="加载模型并创建突变体" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> 加载模型并创建突变体</h1>
 <p>首先，我们加载“核心”大肠杆菌模型，并通过将己糖磷酸异构酶反应的上下界均设置为零来创建突变体。接着，我们将原始模型和突变体模型都添加到我们的试管环境布局中。</p>
-<div id="3c88b894b463c9" class="cell">
+<div id="3c88b894b463c9" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:39.141464500Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:07.328833100Z&quot;}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start by loading required packages, including the COMETS toolbox</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cometspy <span class="im">as</span> c</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cobra.io</span>
@@ -246,94 +246,145 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># load the models and perform the mutation</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>wt <span class="op">=</span> c.model(cobra.io.load_model(<span class="st">"ecoli"</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>wt <span class="op">=</span> c.model(cobra.io.load_json_model(<span class="st">"iJO1366.json"</span>))</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>wt.<span class="bu">id</span> <span class="op">=</span> <span class="st">'wt'</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>mut <span class="op">=</span> c.model(cobra.io.load_model(<span class="st">"ecoli"</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>mut <span class="op">=</span> c.model(cobra.io.load_json_model(<span class="st">"iJO1366.json"</span>))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>mut.change_bounds(<span class="st">'TPI'</span>, <span class="dv">0</span>,<span class="dv">0</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>mut.<span class="bu">id</span> <span class="op">=</span> <span class="st">'TPI_KO'</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># set its initial biomass, 5e-6 gr at coordinate [0,0]</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>wt.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">5e-8</span>]</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>mut.initial_pop <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">5e-8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:623: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.smat = pd.concat([self.smat, cdf])
+C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\model.py:636: FutureWarning: Calling int on a single element Series is deprecated and will raise a TypeError in the future. Use int(ser.iloc[0]) instead
+  self.objective = [int(self.reactions[self.reactions.</code></pre>
+</div>
 </div>
 </section>
 <section id="创建布局添加模型和设置媒体合成" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> 创建布局、添加模型和设置媒体合成</h1>
 <p>我们创建一个空布局（“test_tube”）并设置初始营养供应。</p>
-<div id="d8684543b940bf4e" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty layout</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_tube <span class="op">=</span> c.layout()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add the models to the test tube</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>test_tube.add_model(wt)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_tube.add_model(mut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d8684543b940bf4e" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:39.724506200Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:39.143421700Z&quot;}" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty layout</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>test_tube <span class="op">=</span> c.layout()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># add the models to the test tube</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>test_tube.add_model(wt)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>test_tube.add_model(mut)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\99374\.conda\envs\CarveMe\Lib\site-packages\cometspy\layout.py:1361: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.media = pd.concat([self.media, new_row],</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>building empty layout model
+models will need to be added with layout.add_model()</code></pre>
+</div>
 </div>
 <p>设置培养基组成，向其中添加葡萄糖以及该模型所需的无机营养物质（如氨、磷酸盐）和氧气。在模拟中，这些无机营养物质被视为“静态”的，它们的值设为1000，并且永远不会耗尽。在COMETS模拟中，将代谢物视为“静态”是一种模拟无限供应代谢物的方法。</p>
-<div id="d1895b46369cb099" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add glucose to the media </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>test_tube.set_specific_metabolite(<span class="st">'glc__D_e'</span>, <span class="fl">0.01</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add typical trace metabolites and oxygen coli as static</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>trace_metabolites <span class="op">=</span> [<span class="st">'ca2_e'</span>, <span class="st">'cl_e'</span>, <span class="st">'cobalt2_e'</span>, <span class="st">'cu2_e'</span>, <span class="st">'fe2_e'</span>, <span class="st">'fe3_e'</span>, <span class="st">'h_e'</span>, <span class="st">'k_e'</span>, <span class="st">'h2o_e'</span>, <span class="st">'mg2_e'</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'mn2_e'</span>, <span class="st">'mobd_e'</span>, <span class="st">'na1_e'</span>, <span class="st">'ni2_e'</span>, <span class="st">'nh4_e'</span>, <span class="st">'o2_e'</span>, <span class="st">'pi_e'</span>, <span class="st">'so4_e'</span>, <span class="st">'zn2_e'</span>]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> trace_metabolites:</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    test_tube.set_specific_metabolite(i, <span class="dv">1000</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    test_tube.set_specific_static(i, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d1895b46369cb099" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:39.780971900Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:39.754746300Z&quot;}" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add glucose to the media </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>test_tube.set_specific_metabolite(<span class="st">'glc__D_e'</span>, <span class="fl">0.01</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add typical trace metabolites and oxygen coli as static</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>trace_metabolites <span class="op">=</span> [<span class="st">'ca2_e'</span>, <span class="st">'cl_e'</span>, <span class="st">'cobalt2_e'</span>, <span class="st">'cu2_e'</span>, <span class="st">'fe2_e'</span>, <span class="st">'fe3_e'</span>, <span class="st">'h_e'</span>, <span class="st">'k_e'</span>, <span class="st">'h2o_e'</span>, <span class="st">'mg2_e'</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'mn2_e'</span>, <span class="st">'mobd_e'</span>, <span class="st">'na1_e'</span>, <span class="st">'ni2_e'</span>, <span class="st">'nh4_e'</span>, <span class="st">'o2_e'</span>, <span class="st">'pi_e'</span>, <span class="st">'so4_e'</span>, <span class="st">'zn2_e'</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> trace_metabolites:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    test_tube.set_specific_metabolite(i, <span class="dv">1000</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    test_tube.set_specific_static(i, <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="设置仿真参数" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> 设置仿真参数</h1>
 <p>接下来，我们创建一个参数对象并修改所需的参数 - 在本例中，仅修改模拟运行的周期数。</p>
-<div id="b31efb5dcb641046" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>comp_params <span class="op">=</span> c.params()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>comp_params.set_param(<span class="st">'maxCycles'</span>, <span class="dv">240</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b31efb5dcb641046" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:39.781983800Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:39.765028200Z&quot;}" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>comp_params <span class="op">=</span> c.params()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>comp_params.set_param(<span class="st">'maxCycles'</span>, <span class="dv">240</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="运行模拟" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> 运行模拟</h1>
 <p>最后，我们使用上面创建的布局和参数创建comets对象，并运行竞争分析。</p>
-<div id="9027101496f24c6b" class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>comp_assay <span class="op">=</span> c.comets(test_tube, comp_params)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>comp_assay.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9027101496f24c6b" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:59.458447Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:39.774722700Z&quot;}" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>comp_assay <span class="op">=</span> c.comets(test_tube, comp_params)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>comp_assay.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Running COMETS simulation ...
+Done!</code></pre>
+</div>
 </div>
 <p>我们现在绘制了这两种基因型在共培养中的生物量。</p>
-<div id="9487bd5c7ff1b28b" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>biomass <span class="op">=</span> comp_assay.total_biomass</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>biomass[<span class="st">'t'</span>] <span class="op">=</span> biomass[<span class="st">'cycle'</span>] <span class="op">*</span> comp_assay.parameters.all_params[<span class="st">'timeStep'</span>]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>myplot <span class="op">=</span> biomass.drop(columns<span class="op">=</span>[<span class="st">'cycle'</span>]).plot(x <span class="op">=</span> <span class="st">'t'</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>myplot.set_ylabel(<span class="st">"Biomass (gr.)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9487bd5c7ff1b28b" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:59.701802200Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:59.468256200Z&quot;}" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>biomass <span class="op">=</span> comp_assay.total_biomass</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>biomass[<span class="st">'t'</span>] <span class="op">=</span> biomass[<span class="st">'cycle'</span>] <span class="op">*</span> comp_assay.parameters.all_params[<span class="st">'timeStep'</span>]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>myplot <span class="op">=</span> biomass.drop(columns<span class="op">=</span>[<span class="st">'cycle'</span>]).plot(x <span class="op">=</span> <span class="st">'t'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>myplot.set_ylabel(<span class="st">"Biomass (gr.)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>Text(0, 0.5, 'Biomass (gr.)')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Competition assay_files/figure-html/cell-7-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>我们可以对结果进行定量分析。例如，我们可以计算突变体相对于野生型的竞争适应度，即突变体的生物量增加除以野生型的生物量增加的比率：</p>
-<div id="936d5864a56c4d0b" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cfit <span class="op">=</span> (biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">24</span>, <span class="st">'TPI_KO'</span>].iloc[<span class="dv">0</span>]<span class="op">/</span>biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'TPI_KO'</span>].iloc[<span class="dv">0</span>])<span class="op">/</span>(biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">24</span>, <span class="st">'wt'</span>].iloc[<span class="dv">0</span>]<span class="op">/</span>biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'wt'</span>].iloc[<span class="dv">0</span>])</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cfit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="936d5864a56c4d0b" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:59.715513100Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:59.708463200Z&quot;}" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cfit <span class="op">=</span> (biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">24</span>, <span class="st">'TPI_KO'</span>].iloc[<span class="dv">0</span>]<span class="op">/</span>biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'TPI_KO'</span>].iloc[<span class="dv">0</span>])<span class="op">/</span>(biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">24</span>, <span class="st">'wt'</span>].iloc[<span class="dv">0</span>]<span class="op">/</span>biomass.loc[biomass[<span class="st">'t'</span>] <span class="op">==</span> <span class="dv">0</span>, <span class="st">'wt'</span>].iloc[<span class="dv">0</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cfit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>0.41951819616503444</code></pre>
+</div>
 </div>
 </section>
 <section id="模拟串行传输" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> 模拟串行传输</h1>
 <p>利用COMETS工具，我们还可以模拟这两种突变体之间的连续转移竞争。我们只需调整参数，增加总的模拟时间，并在每24小时设置一次1%的小批量转移，但我们将沿用之前的test_tube环境布局。</p>
-<div id="9e5ee23f46497a18" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>serial_params <span class="op">=</span> c.params()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'maxCycles'</span>, <span class="dv">240</span><span class="op">*</span><span class="dv">25</span>) <span class="co"># simulate 4 serial transfers of 24h each</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'batchDilution'</span>, <span class="va">True</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'dilFactor'</span>, <span class="fl">0.01</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'dilTime'</span>, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9e5ee23f46497a18" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:06:59.732704500Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:59.717001200Z&quot;}" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>serial_params <span class="op">=</span> c.params()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'maxCycles'</span>, <span class="dv">240</span><span class="op">*</span><span class="dv">25</span>) <span class="co"># simulate 4 serial transfers of 24h each</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'batchDilution'</span>, <span class="va">True</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'dilFactor'</span>, <span class="fl">0.01</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>serial_params.set_param(<span class="st">'dilTime'</span>, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>我们运行模拟</p>
-<div id="136da0abd5e35980" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>serial_expt <span class="op">=</span> c.comets(test_tube, serial_params)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>serial_expt.JAVA_CLASSPATH <span class="op">=</span> comp_assay.JAVA_CLASSPATH</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>serial_expt.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="136da0abd5e35980" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:09:44.311470700Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:06:59.724876900Z&quot;}" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>serial_expt <span class="op">=</span> c.comets(test_tube, serial_params)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>serial_expt.JAVA_CLASSPATH <span class="op">=</span> comp_assay.JAVA_CLASSPATH</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>serial_expt.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Running COMETS simulation ...
+Done!</code></pre>
+</div>
 </div>
 <p>现在绘制实验期间两个物种的生物量</p>
-<div id="7145b075f45f6a3" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>biomass <span class="op">=</span> serial_expt.total_biomass</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>biomass[<span class="st">'transfer'</span>] <span class="op">=</span> biomass[<span class="st">'cycle'</span>] <span class="op">*</span> comp_assay.parameters.all_params[<span class="st">'timeStep'</span>]<span class="op">/</span><span class="dv">24</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>myplot <span class="op">=</span> biomass.drop(columns<span class="op">=</span>[<span class="st">'cycle'</span>]).plot(x <span class="op">=</span> <span class="st">'transfer'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>myplot.set_ylabel(<span class="st">"Biomass (gr.)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7145b075f45f6a3" class="cell" data-executetime="{&quot;end_time&quot;:&quot;2024-05-30T13:09:44.616302800Z&quot;,&quot;start_time&quot;:&quot;2024-05-30T13:09:44.307101300Z&quot;}" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>biomass <span class="op">=</span> serial_expt.total_biomass</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>biomass[<span class="st">'transfer'</span>] <span class="op">=</span> biomass[<span class="st">'cycle'</span>] <span class="op">*</span> comp_assay.parameters.all_params[<span class="st">'timeStep'</span>]<span class="op">/</span><span class="dv">24</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>myplot <span class="op">=</span> biomass.drop(columns<span class="op">=</span>[<span class="st">'cycle'</span>]).plot(x <span class="op">=</span> <span class="st">'transfer'</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>myplot.set_ylabel(<span class="st">"Biomass (gr.)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>Text(0, 0.5, 'Biomass (gr.)')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Competition assay_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 
 
@@ -751,8 +802,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Growth in a test tube.html" class="pagination-link" aria-label="导入COMETS Python 工具箱">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">导入COMETS Python 工具箱</span></span>
+      <a href="./Growth in a test tube.html" class="pagination-link" aria-label="Growth in a test tube">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Growth in a test tube</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
