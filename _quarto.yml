@@ -3,7 +3,7 @@ project:
 
 book:
   title: "Cometes中文文档"
-  author: "lanc"
+  author: "兰聪-华中农业大学资环学院"
   date: "2024/5/9"
   chapters:
     - index.qmd
